@@ -1,0 +1,40 @@
+#####################
+   RxJS CHEAT SHEET
+#####################
+
+=============
+1. Observable
+=============
+
+.of(event1, event2)
+=> Creates a stream OF given events/values
+
+.frontEvent(DomElement, 'eventName')
+=> Creates a stream of 'eventName' originating from the DomElement
+
+.debounceTime(timeInMs)
+=> 
+
+.bufferWhen(() => {})
+=>
+
+.map(x => {/* do something */})
+=>
+
+.flatMap()
+=> To be used when we want to flatten inner Observables.
+   It allows NOT to have a Observable of Observables!
+
+.merge(observableStream)
+=> Merges observableStream into origin stream/observable
+
+.filter(x => { /* do something */})
+=>
+
+.delay(timeInMs)
+=> Delays the stream of timeInMs
+
+.subscribe(event => {
+	// do Something On Each Stream Event
+})
+=> Subscribes to a stream of events
