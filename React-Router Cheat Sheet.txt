@@ -1,0 +1,55 @@
+========================
+REACT-ROUTER CHEAT SHEET
+========================
+
+
+1. Components
+-------------
+
+-->	Router: 	Highest-level component which  can:
+					- wrap all the Route components  OR 
+					- just take a 'routes' prop which points to the routes definition
+	{
+		<Router history={browserHistory} routes={routes}/>
+	}
+
+
+--> Route:		Represents a path or a part of a complete path.
+				A path can be dynamic by accepting params which are symbolised
+				by ':paramName'.
+				Route Params: Available via the Prop called 'params' on the target Component.
+	{
+		<Route path="/" component={App}>
+			<Route path="posts/new" component={NewPost}/>
+			<Route path="posts/:id" component={ShowPost}/>
+		</Route>
+	}
+
+
+--> IndexRoute: Allows to define a Component to render when the parent Route is requested.
+				The parent Route's component need to specify where the 'children' have to be rendered
+	{
+		<Route path="/" component={TemplateComponent}>
+			<IndexRoute component={ChildComponent}/>
+		</Route>
+	}
+
+
+--> Link:		Renders an Anchor tag (<a></a>)
+	{
+		<Link to="/myPath">Back to Index</Link>
+	}
+
+
+2. Higher-order Components
+---------------------------
+
+-->	withRouter(component):		Wraps a component so that it inherits the 'router' property
+								which allows to manipulate the router programatically (change URL...)
+
+
+2. Tools
+--------
+
+--> Push a new URL programatically ?
+	

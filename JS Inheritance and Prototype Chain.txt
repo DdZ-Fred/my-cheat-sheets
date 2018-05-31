@@ -1,0 +1,95 @@
+JavaScript Inheritance & Prototype Chain
+========================================
+
+1. To know
+----------
+
+- JS is Prototype based.
+- Each object has a link to another object called the Prototype
+- A Prototype will also have a Proptotype itself
+- ...so on until object has null as its Prototype
+- Property Shadowing [IMPORTANT]:
+	When instanciating an Prototype object, the instance doesn't actually own the properties from the Prototype object. The Prototype object linked own these properties. Though, when accessing an object/instance property, it is first sought among the owned properties. If not found, it is then sought among the properties of the linked Prototype object and so on until the linked Prototype object is null. Thus, an instance can have its own property called 'title' whereas its linked Prototype object will have the same property 'title' with a different value.
+
+
+
+
+2. How to know the Prototype of an object ?
+-------------------------------------------
+
+- Method #1:		Object.getPrototypOf(object);
+- Method #2:		object.__proto__;
+
+
+
+
+3. How to create objects ?
+--------------------------
+
+
+3.1. Creating simple objects [Object.prototype inheritance]
+-----------------------------------------------------------
+
+When creating objects, a Prototype object is implicitly set to it.
+- If it's an [Object] declaration: 					Object.prototype
+- Similarly, [Arrays] inherit from: 				Array.prototype (which inherit themselves from Object.prototype)
+- Also and similarly, [Functions] inherit from: 	Function.prototype (//)
+
+
+
+3.2. Creating objects from given prototype object [Object.create()]
+-------------------------------------------------------------------
+
+// Class/prototype
+var foo = {
+	title: 'This is a title',
+	subtitle:: 'This is a subtitle',
+}
+
+// object/instance
+var foo1 = Object.create(foo);
+
+
+
+3.3. With Constructors
+----------------------
+
+// Owned properties when instanciated
+function Polygon(height, width) {
+	this.height = height;
+	this.width = width;
+}
+
+// Prototype properties
+Polygon.prototype = {
+	getSurfaceArea: function() {
+		return this.height * this.width;
+	}
+}
+
+
+
+3.4. With ES6 'class' keyword
+-----------------------------
+
+	class Polygon {
+		constructor(height, width) {
+			this.height = height;
+			this.width = width;
+		}
+	}
+
+	class Square extends Polygon {
+		constructor(sidelength) {
+			super(sidelength, sidelength);
+		}
+
+		get area() {
+			return this.height * this.width;
+		}
+
+		set sidelength(sidelength) {
+			this.height = sidelength;
+			this.width = sidelength;
+		}
+	}

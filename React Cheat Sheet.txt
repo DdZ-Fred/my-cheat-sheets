@@ -1,0 +1,11 @@
+REACT CHEAT SHEET
+=================
+
+
+Controlled components/inputs
+----------------------------
+
+--> Only updates the state with a new value
+--> The state update then triggers the re-rendering of the component
+--> The component receives the new value
+

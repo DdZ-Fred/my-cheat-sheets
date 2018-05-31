@@ -1,0 +1,119 @@
+===================
+  GIT CHEAT SHEET
+===================
+
+=============================
+1. Initialize your git config
+=============================
+
+-->	Define User Identity:
+	git config --global user.name "Frederic Rey"
+	git config --global user.email "Frederic.Rey.Pro@gmail.com"
+
+--> Key Generation:
+	ssh-keygen -t rsa -b 4096 -C "MyEmail"
+	Check keys in ~/.ssh
+
+--> Add key to ssh store:
+	ssh-add ~/.ssh/id_rsa
+
+--> Add Public key on Github
+
+--> Test connection:
+	ssh -T git@github.com
+    ssh -T git@bitbucket.com
+
+
+
+
+===========================
+2. Contribute to an project
+===========================
+
+--> Fork a Project
+
+--> Clone forked project locally (with SSH)
+	git clone git@github.com:DdZ-Fred/stack-overflow-copy-paste.git
+
+--> Set the original project as the Origin/Upstream for all the push (using SSH)
+	git remote add upstream git@github.com:eggheadio-github/stack-overflow-copy-paste.git
+
+--> Get latest history from this upstream/original project
+	git fetch upstream
+
+--> Set the upstream/master as the Upstream/Remote branch for the local 'master' branch
+	git branch --set-upstream-to=upstream/master master
+
+
+
+
+git rm --cached *		--> Remove all files from staging area (index).
+							Convenient when files were added accidentally
+
+
+
+
+================
+3. Command list
+================
+
+
+
+3.0. Miscelaneous
+-----------------
+
+git stash												--> Stash/Save (for later) the changes that are present in the Staging Area
+															(added with git add) and go back to the last commit
+git stash apply											--> Re-apply the stashed/saved changes
+
+
+
+3.1. Remote Repos
+-----------------
+
+git remote add [remoteName] [URL or SSH String]			--> Setup a Remote for the local repo
+git remote -v											--> List remotes
+git push [targetRemoteName] [branchName]				--> Push local branch changes to given remote
+git pull 												--> [= git fetch && git merge]
+															Fetch latest changes from remote repo
+															and merge them with local code
+git fetch 												--> Fetch latest changes from remote repo ONLY.
+															Changes not applied on local code.
+git diff [upstreamRepo/branch] [localBranch]			-->	Show the fetched changes that haven't been applied/merged yet
+git merge												--> Merge fetched changes with local code
+
+
+
+3.2. Branching
+--------------
+
+git branch 												--> List branches
+git branch [newBranchName]								--> Create a new branch called branchName
+git checkout [branchName]								--> Switch to branch called branchName
+git checkout -b [newbranchName]							--> Create new branch and checkout(switch to) it
+git checktout -											--> Checkout the last/previous checked-out branch
+git merge [otherBranchName]								--> Merge otherBranchName(new feature)
+															into current branch(usually Master)
+git branch -d [branchName]								--> Delete branch called branchName
+
+
+
+3.3. Logging
+------------
+
+git log 												--> List all the commits
+
+Available Commands inside log(Unix Less):
+	# UP-ARRROW					Move towards the latest commits
+	# DOWN-ARROW				Move towards the previous commits
+	# /searchString 			Search string inside log
+								--> Press 'N' to move forwards (latest commits) through the results
+								--> Press 'n' to move backwards (oldest commits) through the results						
+
+
+
+
+3.4. RESET
+----------
+
+git reset --hard @{u}									--> Reset local branch to make it identical to the "upstream"

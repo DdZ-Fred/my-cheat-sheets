@@ -1,0 +1,271 @@
+#################
+## NODE & REPL ##
+#################
+
+
+===========
+ Node REPL
+===========
+
+REPL: Read Eval Print Loop
+Commands:
+		.save filename.js	--> Save Session in js file to be reloaded later.
+		.load				--> Load previously saved session
+		.exit				--> Exit Node REPL
+		.break/.clear		--> Go out of a pending input
+
+
+
+========
+1. NPM
+========
+
+npm info packageName peerDependencies					--> List all peer dependencies
+npm [install | i] packageName							--> Install package
+npm i -D packageName									--> Install package and save as devDependency
+npm i -S packageName									--> Install package and save as Dependency
+
+npm [uninstall | un | remove | rm | r] packageName		--> Uninstall given package
+
+npm install --only=dev									--> Install only devDependencies
+
+npm adduser												--> CREATE NPM ACCOUNT
+npm publish												--> PUBLISH CURRENT PACKAGE
+npm version [major/minor/patch]							--> INCREMENT THE SPECIFIED VERSION NUMBER
+															v0.1.1 = Major version 0 / Minor version 1 / Patch 1
+npm unpublish packageName [--force]						-->	UNPUBLISH A PACKAGE
+npm outdated											--> LIST OUTDATED PACKAGES FROM LOCAL PACKAGE
+
+npm ls | npm list 										--> List packages
+npm list --depth 1 -g packageName						--> LIST PACKAGES
+															-g /--global 	Check the global packages rather than the local ones
+															--depth:		Specifies the listing depth.
+																			1 would list all the packages
+																			2 would list all the packages WITH their respective deps
+
+===========
+2. GLOBALS
+===========
+
+global.process		--> object that gathers functions and variables
+
+	## VARIABLES ##
+	{
+		- global.process.versions: 		Node and dependencies versions
+		- global.process.arch:			System architecture (x64)
+		- global.process.platform:		System platform (win32)
+		- global.process.release:		Node release info
+	}
+
+	## FUNCTIONS ##
+	{
+		- global.process.nextTick(callback):
+		Callback is called once the current loop is done.
+
+		- global.process.argv:			Returns an array that contains
+										the arguments from the current Node call
+	}
+
+
+=================
+3. MODULE LOCALS
+=================
+
+--> Variables available from anywhere in a module
+
+__dirname:		--> 	{	NAME OF THE DIRECTORY WHERE THE CURRENTLY EXECUTING SCRIPT RESIDES IN   }
+__filename:		-->		{	CURRENT FILENAME   }
+module 			-->		{	REFERENCE TO THE CURRENT MODULE   }
+process 		-->		{	REFERENCE TO THE global.process OBJECT   }
+
+
+
+
+================
+4. NODE MODULES
+================
+
+
+4.1. FS - File System
+=====================
+
+fs.readFile('filename.txt', 'utf8', function(err, data) {
+	//Manipulate data
+	console.log(data.toString())
+})
+--> {	READ A FILE
+		Param 1		file
+		Param 2		Encoding (optional)
+		Param 3		callback
+	}
+
+
+fs.readdir('dirName', function(err, files) {
+	//Manipulate files
+	files.forEach((file) => {
+		// Manipulate single file
+	})
+})
+--> {	READ DIRECTORY CONTENT   }
+
+
+fs.readdirSync(path, [options])
+--> {	READ SYNCHRONOUSLY THE CONTENT OF A DIRECTORY
+		Param 1		String/Buffer
+		Param 2		String/Object
+		RETURNS 	Array of filenames
+	}
+
+
+fs.unlinkSync(path)
+--> {	DELETE A FILE
+		Param 1		String: File to delete
+		RETURNS 	Undefined
+	}
+
+
+4.2. Process
+============
+
+process.env.ENVIRONMENT_VAR
+--> {	ALLOWS TO ACCESS ENVIRONMENT VARIABLES   }
+
+
+
+
+4.3. HTTP
+=========
+
+const server = http.createServer((req, res) => callbackFunc)
+--> {	CREATES A WEB SERVER   
+		Inside callback:
+			- req.url						:	current url requested
+			- req.method					:	request method = GET/POST
+			- res.writeHead(code, options)	:	code=200, options=ContentType...
+			- res.end('Text here')			:	Write at the end of the response
+	}
+
+
+server.listen(portHere)
+-->	{	LISTEN ON SPECIFIED PORT   }
+
+
+
+
+4.3. Events
+===========
+
+Package access:		require('events')
+
+
+	4.3.1. EventEmitter
+	===================
+	ALLOWS TO DEFINE OPERATIONS WHICH HAVE TO BE LAUNCHED ON A SPECIFIED EVENT
+	Package access:		require('events').EventEmitter
+
+	emitter.on('eventName', operationFunc)
+	--> {	ADD AN OPERATION/LISTENER TO THE GIVEN EVENT
+			Param 1		String: event name
+			Param 2		Function: the operation
+			Alias		emitter.addListener()
+		}
+
+	emitter._events
+	-->	{ 	LIST ALL THE EMITTER EVENTS   }
+
+	emitter._events.eventName
+	--> {	SHOW SPECIFIED EMITTER EVENT WITH ITS OPERATIONS/LISTENERS   }
+
+	emitter.emit('eventName')
+	--> {	EMIT GIVEN EVENT   
+			Param 1		Event name
+			RETURNS 	True if exists otherwise False
+		}
+
+	emitter.removeListener('eventName', listenerFuncName)
+	--> {	REMOVE (ONE) SPECIFIED LISTENER FROM EVENT   }
+
+
+	emitter.removeAllListeners('eventName')
+	--> {	REMOVE ALL LISTENERS FROM GIVEN EVENT
+			Param 1		(Optional) event name. Remove all listeners from all events otherwise.
+		}
+
+	emitter.setMaxListeners(20)
+	--> {	CHANGE DEFAULT MAX LISTENERS VALUE
+			Param 1		Number
+		}
+
+
+4.4. Buffer
+===========
+
+var buf = Buffer.alloc(size, fill, encoding);
+--> { 	CREATES NEW BUFFER TO BE WRITTEN ON
+		Param 1		Int, Buffer size in byte
+		Param 2		(Default=0) value used to fill the buffer on initialization(Optional)
+		Param 3		Encoding
+	}
+
+buf.write(string, offset, length, encoding)
+--> {	WRITE INTO BUFFER
+		Param 1		String to write
+		Param 2		Offset(Number). Position to start writing
+		Param 3		Number
+		Param 4		String
+	}
+
+buf1 = buf.slice(offset, lengh)
+-->	{	CREATES A REFERENCE TO ANOTHER BUFFE (NOT A NEW BUFFER)
+		Param 1		Number
+		Param 2		Number
+	}
+
+buf1.compare(buf2)
+--> {	COMPARE TWO BUFFERS
+		Caller		Buffer1
+		Param		Buffer2
+		Returns		0 if equal
+					1/-1 if different
+	}
+
+buf1.equals(buf2)
+--> {	CHECK BUFFERS EQUALITY
+		Caller		Buffer1
+		Param		Buffer2
+		Returns		True/False
+	}
+
+Buffer.byteLength(stringHere, 'utf8');
+-->	{	CALCULATE BYTE LENGTH FOR THE SPECIFIED ENCODING
+		Param 1		String, data to evaluate
+		Param 2		String, encoding	
+	
+	}
+
+buf.toJSON()
+--> {	RETURNS BUFFER IN JSON   }
+
+
+
+
+4.5. Path
+=========
+
+Access:		const path = require('path')
+
+
+
+path.join('pathPortion', 'fileName.html')
+--> {	RETURNS AN ABSOLUTE PATH
+		
+	}
+	
+
+path.resolve([from], to)
+--> {	RESOLVES 'to' TO AN ABSOLUTE PATH
+		Param 1			(Optional) String.
+		Param 2			String
+		RETURNS 		Absolute path
+	}
+

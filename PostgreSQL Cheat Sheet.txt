@@ -1,0 +1,37 @@
+=======================
+POSTGRE SQL CHEAT SHEET
+=======================
+
+See: http://www.postgresqltutorial.com/postgresql-cheat-sheet/
+http://www.postgresqltutorial.com/postgresql-cheat-sheet/
+http://www.postgresqltutorial.com/postgresql-data-types/
+
+- Enter the PostgreSQL prompt
+	--> psql
+	--> psql -U [username]				: With specific user
+	--> psql -d [databaseName]		: In a given DB
+
+
+- Connect to a specific database:
+	--> \c [databaseName];
+
+- List all the databases
+	--> \l
+
+- List all current database tables:
+	--> \dt
+
+- Get detailed info on a Table
+	--> \d+ [tableName]
+
+- Quit the PostgreSQL prompt
+	--> \q
+
+- Show current connection info (dbName, user, port...)
+	--> \conninfo
+
+
+
+- Create a new DB:
+	-->	create database dbName;
+

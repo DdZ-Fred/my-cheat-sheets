@@ -1,0 +1,48 @@
+Jade Templating - Cheat Sheet
+=============================
+
+
+Execute JS script in Template:
+				-----------------------------
+				script.
+					Call.javascript(here);
+				-----------------------------
+
+
+
+Unbuffured code (No outputs directly):
+				-----------------------------
+				- if (posts.length !== 0) {
+					//Do something
+				- } else {
+					//Do something else
+				- }
+				-----------------------------
+
+
+
+Buffered code (Special characeters are escaped):
+				-----------------------------
+				p
+					= 'Post by ' + post.author + ' - ' + post.date
+				-----------------------------
+
+
+
+Unescaped buffered code (when includes html tags):
+				-----------------------------
+				p
+					!= '<taghere>patata</taghere>'
+					!= post.body		//includes body as html code
+				-----------------------------
+
+
+
+				
+
+- Loop on array
+--> {
+		each item, i in itemsArray
+			...Code Per Item
+			p #{item.name}
+	}

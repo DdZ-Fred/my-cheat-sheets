@@ -1,0 +1,6 @@
+====================
+ATOM CMD CHEAT SHEET
+====================
+See: http://flight-manual.atom.io/hacking-atom/sections/debugging/#clearing-saved-state
+
+atom --clear-window-state			--> Start Atom with cleaned window state

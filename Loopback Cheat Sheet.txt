@@ -1,0 +1,56 @@
+##########################
+   LOOPBACK CHEAT SHEET
+##########################
+
+
+1. CLI Commands
+===============
+
+
+--> lb model [ModelName]	To generate a new Model	
+--> lb property				To define new Model property
+--> lb relation				To define a relationship between two Models
+--> lb remote-method		To defined a remote method. It's a method that is associated to a Model
+							and which can be called via a special endpoint
+
+--> lb acl					To add a new ACL on a Model
+								- Model to be associated to ?
+								- Scope ? all Methods and properties ? Single method ?
+								- Role ? group of users targetted ?
+								- Permission ? Deny/Grant ? 
+
+2. Request filters
+==================
+
+Include the following are request parameters as needed:
+
+
+- To include a relation:
+	[KEY]									[VALUE]
+	filter[include]							relationName
+
+- To order the results by a given property:
+	[KEY]									[VALUE]
+	filter[order]							propertyName ASC/DESC
+
+- To reduce the results based on a condition
+	[KEY]									[VALUE]
+	filter[where][propName][comparator]		valueToBeComparedTo
+
+		- propName, can be any property of the ressource
+		- comparator, can be one of  the following values:
+			* gt:	Greater than
+			* lt:	Lower than
+			* like:	Wildcard
+
+- To select the fields/properties returned:
+	[KEY]									[VALUE]
+	filter[fields][fieldName]				true/false
+
+- To limit the amount of results:
+	[KEY]									[VALUE]
+	filter[limit]							number
+
+- To skip items in the results:
+	[KEY]									[VALUE]
+	filter[offset]							number

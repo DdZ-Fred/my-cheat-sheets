@@ -1,0 +1,171 @@
+===================
+EXPRESS CHEAT SHEET
+===================
+
+
+- Create new express app
+	--> const app = express()
+
+
+
+
+0. COMMONLY USED OBJECT AND RESPECTIVE METHODS
+----------------------------------------------
+
+0.1. Response /res
+-------------------
+
+res.status(STATUS_CODE)
+res.send('String to send')
+res.sendFile('fileName.html')
+res.render('viewName', ctxObject)
+res.redirect('routeHere')
+res.download('filePathHere', ['DestinationFileName'])
+res.json(dataToSendAsJSON)
+
+
+
+
+1. VIEW ENGINE
+--------------
+
+- Define new view engine (with 'consolidate')
+	--> app.engine('engineName', consolidateImportName.viewEngineImportName)
+
+
+- Set views directory:
+	--> app.set('views', './viewsDirectoryHere')
+
+
+- Set default view engine
+	--> app.set('view engine', 'engineName')
+
+
+- Provide to tools to views / locals
+	--> app.locals.utilsFunction = require('packageName')
+	--> [Inside view / Jade]: #{utilsFunction(......)}
+
+2. USING STATIC ASSETS (images...)
+----------------------------------
+
+- Define THE (unique) static assets directory
+	--> app.use(express.static(path.join(__dirname, 'public')))
+
+- Define a static assets directory to be resolved
+	-->	app.use('/virtualAssetPath', express.static('realPath'))
+
+
+
+
+3. API: DEFINE ROUTES & HTTP VERBS
+----------------------------------
+
+- Define route hook #1 / with All verb
+	--> app.all('/pathHere', (req, res, next) => {
+			// Called whatever the verb used in the request
+			next();
+		})
+
+
+- Define route hook #2 / with RegExp
+	--> app.get(/regExpHere*/, (req, res, next) => {
+			// Code to execute for every route starting with pathHere
+			next();
+		})
+	--> next() will allow to continue (rather than send a response) and test the later defined routes
+
+
+- Define route hook #3 / with in-route additional handler
+	--> function preHandlerFuncHere(req, res) {
+			//Code to execute before the actual route handler
+			// Check permissions...
+		}
+		app.get('/pathHere', preHandlerFuncHere, (req, res, next) => {
+			// Code to execute for every route starting with pathHere
+			next();
+		})
+
+
+- Define a route with method(verb):
+	--> app.[methodName]('/pathHere/:paramHere', (req, res) => {
+			// Get params
+			const username = req.params.username;
+			// send response
+			res.send('Hello')
+		})
+	--> [methodName] = get/post/put/delete
+
+
+- Define route with view to render
+	--> app.get('/pathHere', (req, res) => {
+			res.render('viewName', {
+				contextVar1: username,
+				contextVar2: fullname,
+			})
+		})
+
+
+- Gathering Http Verbs handlers under a same and unique route (POST/GET/PUT/DELETE)
+	--> app.route('/:paramHere')
+			.all((req, res, next) => {
+
+			})
+			.get(preHandlerHere, (req, res) => {
+
+			})
+			.put((req, res) => {
+
+			})
+			.delete((req, res) => {
+
+			})
+
+
+- Modulerizing the API
+	--> [user.js - User API]
+			import express from 'express';
+			const router = express.Router({
+				// To use otherwise URL params are not available
+				mergeParams: true
+			});
+
+			router.all('/', handler(req, res, next)...);
+			router.get('/', handler(req, res)...)
+			router.put('/', handler(req, res)...)
+			router.delete('/', handler(req, res)...)
+
+			export default router;
+
+	--> [index.js]
+			import express from 'express';
+			import userRouter from './user';
+
+			const app = express();
+			app.use('/:username', userRouter);
+
+
+
+
+4. PARSING REQUEST BODY DATA - body-parser
+------------------------------------------
+
+- Tell Express to use the body-parser middleware
+	-->	import bodyParser from 'body-parser';
+		app.use(bodyParser.urlencoded({extended: true}));
+
+
+- Access parsed data in request
+	--> const {var1, var2} = req.body;
+
+
+
+
+
+5. START SERVER
+---------------
+
+app.listen(PORT_HERE, () => {
+	// Callback run when server is running
+})
+
+

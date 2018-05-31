@@ -1,0 +1,112 @@
+#########################
+   FLEXBOX CHEAT SHEET
+#########################
+
+
+Rule:			'display: [flex / inline-flex];'
+Target: 	Container element which gathers the (children) elements we want to organize/order
+
+	--> flex:						Displays in Flex mode
+			Note:						Makes the container a 'block' element
+
+	--> inline-flex: 		Displays in Flex mode
+			Note:						Does NOT make the container a 'block' element
+
+
+
+Rule:			'flex-direction: [column / column-reverse];'
+Target:		Container element
+
+	--> row:						(Default) Organizes the children horizontally
+
+	--> row-reverse:		Organizes the children horizontally but reversed
+
+	--> column: 				Organizes the children vertically
+
+	--> column-reverse:	Organizes the children vertically but reversed
+
+
+
+Rule:			'order: number;'
+Target:		Child element
+Desc:			Changes the 'order' value of a child element which is by default 0;
+					When multiple children have an equal 'order' value (which is the case by default with a value of 0), they are then ordered based on their order/position in the DOM.
+
+
+
+Rule:			'justify-content: [ flex-start / flex-end / center / space-between / space-around ];'
+Target:		Container element
+Desc:			Defines how the children are aligned along the flex-direction
+					and how the available space is shared
+
+	--> flex-start:			(Default) The children positionned at the Start of the container
+	--> flex-end:				The children are positionned at the End the container
+	--> center:					The children are positionned together at the Center of the container
+	--> space-between:	First Child is positionned at the Start
+											Middle Children are positionned in between with the space being shared evenly
+											Last Child is positionned at the End
+	--> space-around:		Space is shared evenly between all Children
+
+
+
+Rule:			'align-items: [ stretch / flex-start / flex-end / center / baseline ];'
+Target:		Container element
+Desc:			[AFFECTS DIRECTLY FLEX ITEMS] Similar to 'justify-content' but affects the space perpendicularly to the flex-direction.
+					Meaning that if:
+						- flex-direction = row, which aligns horizontally the children, then it affects the space available vertically
+						- flex-direction = column on the other hand, it is the space available horizontally that
+						is affected
+
+	--> stretch:				(Default) Stretches all the children to take all the available space
+	--> flex-start:			Children are aligned at the Start of the container
+	--> flex-end:				Children are aligned at the End of the container
+	--> center:					Children are centered
+	--> baseline:				Aligns the children at the baseline of the first line of text
+
+
+
+Rule:			'align-self: [ stretch / flex-start / flex-end / center / baseline ];'
+Target:		Child element
+Des:			Same as 'align-items' but for a Child element
+
+
+
+Rule:			'flex-basis: SIZE;'
+Target:		Child element
+Desc:			Defines the optimal size of the element along the flex-direction
+
+
+
+Rule:			'flex-grow: ZEROtoONE;'
+Target:		Child element
+Desc:			Defines the proportion of available/extra space (along the flex-direction) to add to the element
+
+	--> 0:							(Default) Means that the child element doesn't use any of the available space.
+	--> 1:							Means that the child element use all of the available space
+
+
+
+Rule:			'flex-shrink: NUMBER;'
+Target:		Child element
+Desc:			Defines how a child element should be shrinked by giving the proportion of space to shrink.
+
+	--> 1:							(Default) Means that the child element shrinks itself from the whole extra/shrinked space.
+											Thus, when there are multiple children, the whole extra/shrinked space is shared equally among all the children.
+	--> 0:							The child element is NOT shrinked and this can imply an overflow!
+
+
+
+Rule:			'flex-wrap: [ nowrap / wrap / wrap-reverse ];'
+Target:		Container element
+
+	--> nowrap:					(Default) No Wrapping, no re-organization of the children elements
+	--> wrap:						Wraps as much of children items as possible along the flex-direction depending on the space available
+	--> wrap-reverse:		Same as 'wrap' but will the child elements reversed (starts by the last one)
+
+
+
+Rule:			'align-content: [ stretch / flex-start / flex-end / center / baseline ];'
+Target:		Container element
+Desc:			[TO BE USED I CONJUNCTION WITH 'flex-wrap']
+					Similar to 'justify-content' but affects the alignment of the lines themselves.
+					Thus, there is no effect if only a single line is present.

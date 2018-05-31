@@ -1,0 +1,657 @@
+#####################
+   SVG CHEAT SHEET
+#####################
+
+
+
+
+##############
+    A. SVG
+##############
+
+Use cases
+---------
+
+To use when:
+  - You want to display svg elements!!!GEUUUHHHHH!!
+  - You want nested elements to be in another coordinate system.
+    A nested svg element with x & y attributes should be used.
+
+Import stuff to know:
+  - css 'transform' doesn't always work on svg elements,
+    though applying transformations through the 'transform' attribute will
+
+
+
+Positionning
+------------
+
+=>  TOP-LEFT Corner
+
+
+Attributes
+----------
+
+<svg
+  x="Number"                        =>  Moves the x-origin to the passed value (when applied to a nested svg)
+  y="Number"                        =>  Moves the y-origin to the passed value (when applied to a nested svg)
+  width="Number"                    =>  Viewport width
+  height="Number"                   =>  Viewport height
+  viewBox="minX minY width height"  =>  Allows to modify ViewBox, which is a sub-portion (cropped & scaled):
+>                                       of the user (svg) coordinate system:
+                                          - minX: Minimum visible X (moves viewBox X-origin & equivalent to a translation of minus minX)
+                                          - minY: Minimum visible Y (moves viewBox Y-origin & equivalent to a translation of minus minY)
+                                          - width: specifies the visible part starting from the minX
+                                          - height: specifies the visible part starting from the minY
+
+</svg>
+
+
+################
+    B. GROUP
+################
+
+To use when you want:
+  - to apply the same styles on multiple elements (shapes/text)
+  - to transform multiple elements (shapes/text) the same way
+
+
+Attributes
+----------
+
+<g
+  transform="..."
+>
+</g>
+
+
+
+###################################
+    C. DEFINITIONS/SYMBOLS & USE
+###################################
+
+To use when:
+  - You want to define a content (without rendering it)
+    and use/reuse it multiple times
+
+To know:
+  - USE:
+    => A content doesn't have to be wrapped in a 'defs' tag in order
+       to be reusable!
+    => Position of the new element is relative to the original element,
+       UNLESS, the original element is wrapped in a 'defs' tag,
+       then the new element is relative to the coordiante user system
+    => Styles on the original element cannot be overridden on the copies
+  - SYMBOL:
+    => Every copie instanciated - using 'use' - defines a new viewport,
+       hence being appropriate for contents that have to be exclude from
+       the parent viewport
+
+
+Declaration & Usage
+-------------------
+<svg>
+  <defs>                    =>  Stores every reusable content.
+    <g id="awesome">        =>  Reusable content must be wrapped in a group 'g' tag
+      <circle                   and must be identified by an id
+        ...
+        ...
+      />
+      <rect
+        ...
+        ...
+      />
+    </g>
+  </defs>
+
+  <symbol id="bapo">        =>  Stores the reusable content and acts like a 'g' tag.
+
+  </symbol>
+
+  <use
+    id="awesome1"
+    xlink:href="#awesome"    =>  References the content type
+    x="10"                   =>  x coordinate
+    y="10"                   =>  y coordinate
+  />
+  <use
+    id="awesome2"
+    xlink:href="#awesome"
+    x="20"
+    y="20"
+  />
+</svg>
+
+
+
+################
+    D. SWITCH
+################
+
+To use when:
+  - You want a conditionnal rendering based on various metrics:
+    => system language
+    => Features supported by the browser.
+       See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/requiredFeatures
+    => Extension supported by the browser
+      Se https://www.w3.org/TR/SVG/struct.html#ConditionalProcessingRequiredExtensionsAttribute
+
+
+Usage
+-----
+
+<switch>
+  <g
+    systemLanguage="en"
+    requiredFeatures="feature1URL feature2URL ..."
+    requiredExtensions="extension1URL extension2URL ..."
+  >
+    <text x="10" y="20">No-Region English</text>
+  </g>
+  <g systemLanguage="en-US">
+    <text x="10" y="20">US English</text>
+  </g>
+  <g systemLanguage="en-GB">
+    <text x="10" y="20">Real English</text>
+  </g>
+  <g systemLanguage="fr">
+    <text x="10" y="20">French</text>
+  </g>
+</switch>
+
+
+#################
+    E. SHAPES
+#################
+
+=============
+#1. RECTANGLE
+=============
+
+#1.1. Positionning
+-----------------
+
+=>  TOP-LEFT Corner
+
+
+#1.2. Attributes
+---------------
+
+<rect
+  x="Number"          => x coordinate
+  y="Number"          => y coordinate
+  width="Number"      => Width
+  height="Number"     => Height
+  rx="Number"         => x radius (rounded corners)
+  ry="Number"         => y radius (rounded corners)
+/>
+
+
+#1.3. Styling
+------------
+
+- stroke:         red;    =>  Border/Outline color (without alpha)
+- stroke-opacity: 0.6;    =>  Border opacity (Color alpha)
+- stroke-width:   3;      =>  Border width
+- fill:           blue;   =>  Content color
+- fill-opacity:   0.7     =>  Content opacity
+
+
+
+=============
+#2. CIRCLE
+=============
+
+#2.1. Positionning
+-----------------
+
+=>  CENTER
+
+
+#2.2. Attributes
+---------------
+
+<circle
+  cx="Number"   =>  Center x coordinate
+  cy="Number"   =>  Center y coordinate
+  r="Number"    =>  Radius size
+/>
+
+
+#2.3. Styling
+------------
+
+- stroke:         red;    =>  Border/Outline color (without alpha)
+- stroke-opacity: 0.6;    =>  Border opacity (Color alpha)
+- stroke-width:   3;      =>  Border width
+- fill:           blue;   =>  Content color
+- fill-opacity:   0.7     =>  Content opacity
+
+
+
+=============
+#3. ELLIPSE
+=============
+
+#3.1. Positionning
+-----------------
+
+  => CENTER
+
+
+#3.2. Attributes
+---------------
+
+<ellipse
+  cx="Number"    => Center x coordinate
+  cy="Number"    => Center y coordinate
+  rx="Number"    => x radius
+  ry="Number"    => y radius
+/>
+
+
+#3.3. Styling
+------------
+
+- stroke:         red;    =>  Border/Outline color (without alpha)
+- stroke-opacity: 0.6;    =>  Border opacity (Color alpha)
+- stroke-width:   3;      =>  Border width
+- fill:           blue;   =>  Content color
+- fill-opacity:   0.7     =>  Content opacity
+
+
+
+=============
+#4. LINE
+=============
+
+#4.1. Positionning
+-----------------
+
+  =>  FIRST POINT
+
+
+#4.2. Attributes
+---------------
+
+<line
+  x1="Number"     =>  Starting point x coordinate
+  y1="Number"     =>  Starting point y coordinate
+  x2="Number"     =>  Ending point x coordinate
+  y2="Number"     =>  Ending point y coordinate
+/>
+
+
+#4.3. Styling
+------------
+
+- stroke:         	red;    =>  Border/Outline color (without alpha)
+- stroke-width:		5;		=>	Stroke width
+- stroke-opacity: 	0.6;    =>  Border opacity (Color alpha)
+
+
+
+=============
+#5. POLYLINE
+=============
+
+Allows to draw opened & closed shapes
+
+#5.1. Positionning
+-----------------
+
+  => FIRST POINT
+
+
+#5.2. Attributes
+---------------
+
+<polyline
+  points="x1,y1 x2,y2 x3,y3..." =>  Each point must be separated with a space
+/>
+
+
+#5.3. Styling
+------------
+
+- stroke:         red;    =>  Border/Outline color (without alpha)
+- stroke-opacity: 0.6;    =>  Border opacity (Color alpha)
+- stroke-width:   3;      =>  Border width
+- fill:           blue;   =>  Content color
+- fill-opacity:   0.7     =>  Content opacity
+
+
+=============
+#6. POLYGONS
+=============
+
+- Allows to draw polygons (>= 3 points), which are closed shapes.
+- Are similar to polylines though points are connected together automatically,
+  especially the last one with the first one,
+  so there's no need to re-write at the end the origin/first point
+
+#6.1. Positionning
+-----------------
+
+  => FIRST POINT
+
+
+#6.2. Attributes
+---------------
+
+<polygon
+  points="x1,y1 x2,y2 x3,y3..." => Each point must be separated with a space
+/>
+
+
+#6.3. Styling
+------------
+
+- stroke:         red;    =>  Border/Outline color (without alpha)
+- stroke-opacity: 0.6;    =>  Border opacity (Color alpha)
+- stroke-width:   3;      =>  Border width
+- fill:           blue;   =>  Content color
+- fill-opacity:   0.7     =>  Content opacity
+
+
+===========
+#7. PATH
+===========
+
+#7.1. Attributes
+---------------
+
+<path
+  d=""      =>  d for Delta: gathers all the drawing commands.
+/>
+
+
+#7.2. Commands
+--------------
+
+Available pen commands:
+  - M/m:  Moves the pen to a given point
+      =>  Upper: Moves to the given point, relative to the Viewport
+          Moves the origin so that the subsequent commands can be based on it
+      =>  Lower: Moves to the given point, relative to the current position
+  - L/l:  Line is drawn from the current point to a given point
+          Abbreviations:
+              -> H/h x: Horizontal line to x coordinate
+              -> V/v y: Vertical line to y coordinate
+
+  - A/a:  Arc is drawn from the current point to a given point
+  - Q/q:  Quadratic bezier curve...
+  - C/c:  Cubic bezier curve...
+  - Z/z:  Closes the path by connecting the current point to the first point.
+
+
+#7.3. Styling
+-------------
+
+- stroke:         red;    =>  Border/Outline color (without alpha)
+- stroke-opacity: 0.6;    =>  Border opacity (Color alpha)
+- stroke-width:   3;      =>  Border width
+- fill:           blue;   =>  Content color
+- fill-opacity:   0.7     =>  Content opacity
+
+
+
+====================
+   #8. TEXT/TSPAN
+====================
+
+To know:
+  - text & span behave similarly
+  - tspan must be nested in a text tag
+  - text wrapping is not possible
+
+
+#8.1. Positionning
+------------------
+
+  => BOTTOM-LEFT
+
+
+#8.2. Attributes
+----------------
+
+<text
+  x="Number"                      =>  x coordinate
+  y="Number"                      =>  y coordinate
+>
+  <tspan
+    x="Number"                    => Child x coordinate
+    y="Number"                    => Child y coordinate
+  >text 1</tspan>
+  <tspan>text 2</tspan>
+</text>
+2
+
+#8.3. Styling
+-------------
+
+- stroke:         red;            =>  Border/Outline color (without alpha)
+- stroke-opacity: 0.6;            =>  Border opacity (Color alpha)
+- stroke-width:   3;              =>  Border width
+- fill:           blue;           =>  Content color
+- fill-opacity:   0.7             =>  Content opacity
+
+- writing-mode: vertical-lr;      =>  Mode in which the text should be written
+                                      Available values:
+                                        - vertical-lr: writes vertically from left to tright
+- text-decoration: underline;     =>  Applies decoration to the text
+- letter-spacing: 5;              =>  Letter spacing
+- word-spacing: 10;               =>  Word spacing
+- font-size: Number-px;           =>  Font size
+- text-anchor: start/end/middle;  =>  Defines the part of the text that has to be
+                                      positionned at the given coordinate
+
+
+
+===============
+   #9. IMAGE
+===============
+
+Useful when:
+  - You want to include/use raster images in your svg
+
+
+#9.1. Positionning
+------------------
+
+  => TOP-lEFT
+
+
+#9.2. Attributes
+----------------
+
+<image
+  x="Number"        =>  x coordinate
+  y="Number"        =>  y coordinate
+  width="Number"    =>  Width
+  height="Number"   =>  Height
+  xlink:href=""     =>  Image location
+/>
+
+
+
+===================
+   #10. A (Link)
+===================
+
+#9.1. Positionning
+------------------
+
+
+
+
+#9.2. Attributes
+----------------
+
+<a
+  xlink:href="URL"      =>  URL to be redirected to
+  target="_blank"       =>  Opens new window/tab
+>
+  ...contentWhichRedirect
+</a>
+
+
+
+#################
+    F. STYLING
+#################
+
+=============
+   #1. CSS
+=============
+
+=> GENERALLY:
+  - stroke:           red;                =>  Border/Outline color (without alpha)
+                                              Special values:
+                                                - none: No stroke/outline
+  - stroke-opacity:   0.6;                =>  Border opacity (Color alpha)
+  - stroke-width:     3;                  =>  Border width
+  - stroke-linejoin:  round;              =>  Defines how corners of paths or basic shapes should be:
+                                                - miter: Sharp corners (default)
+                                                - round: Rounded
+                                                - bevel: Bevelled (cut perpendically to the bisectrix of the corner angle)
+  - stroke-linecap:   butt;               =>  Defines how the end of an open subpath should be shaped.
+                                              Ends are extended beyond their original coordinates!
+                                                - butt: No extension (default)
+                                                - square: Square extension
+                                                - round: Rounded extension
+  - stroke-dasharray: [dash_length gap]+; =>  Defines how the stroke should be dashed.
+                                              Multiple patterns can be given:
+                                              Ex: 10 2 5 2 3 2...
+                                                  It would draw 3 successive lines and repeat it
+  - fill:             blue;               =>  Content color.
+                                              Special values:
+                                                - url('#patternId'): Allows to fill with a pattern
+  - fill-opacity:     0.7                 =>  Content opacity
+
+=> TEXT/TSPAN:
+  - writing-mode: vertical-lr;      =>  Mode in which the text should be written
+                                        Available values:
+                                          - vertical-lr: writes vertically from left to tright
+  - text-decoration: underline;     =>  Applies decoration to the text
+  - letter-spacing: 5;              =>  Letter spacing
+  - word-spacing: 10;               =>  Word spacing
+  - font-size: Number-px;           =>  Font size
+  - text-anchor: start/end/middle;  =>  Defines the part of the text that has to be
+                                        positionned at the given coordinate
+
+
+
+=================
+   #2. PATTERN
+=================
+
+To use when:
+  - You want to fill a shape with a repeated particular pattern (which is another shape)
+
+
+Definition:
+-----------
+<svg>
+  <defs>
+    <pattern
+      id="myPattern"                  =>  Unique identifier which allows to use it
+      x="Number"                      =>  Starting x-coordinate of the center
+      y="Number"                      =>  Starting y-coordinate of the center
+      width="Number"                  =>  Width of the pattern:
+                                            - If width > shape-width, then there will be space between the repeated shapes
+                                            - If there are equal, then they are queued one after another
+      height="Number"                 =>  Height of the pattern
+      patternUnits="userSpaceOnUse"   =>  Defines the coordinate system.
+                                          Only special values:
+                                            - userSpaceOnUse: The element referencing the pattern
+                                            - objectBoundingBox: ?????
+      patternTransform="rotate()..."  =>  Any transformation...
+    >
+      ...any shape to be repeated in the filling
+    </pattern>
+  </defs>
+</svg>
+
+
+Usage
+-----
+<svg>
+  <rect
+    style="fill: url('#myPattern');"
+  />
+  <circle
+    style="fill: url('#myPattern');"
+  />
+  <AnyShapeWithFilling
+    style="fill: url('#myPattern');"
+  />
+</svg>
+
+
+
+===================
+   #3. CLIP PATH
+===================
+
+To use when:
+  - You want to clip a shape/path/group along a particular second shape/path
+  - You want to hide a portion of your shape/path/group
+
+
+Definition
+----------
+<svg>
+  <defs>
+    <clipPath
+      id="myClippingPath"
+    >
+      //...any shape to be used as clip-path
+      <rect
+        x="0"         =>  Starting x coordinate relative to the parent element
+        y="0"         =>  Starting y coordinate relative to the parent element
+        width="100"   =>  Width-portion of the referencing element to be kept
+        height="200"  =>  Height-portion of the referencing element to be kept
+      />
+    </clipPath>
+  </defs>
+</svg>
+
+
+Usage
+-----
+<svg>
+  // ------------------
+  // --- ON A GROUP ---
+  // ------------------
+  <g
+    style="clip-path: url('#myClippingPath')"     => Applies on every child!
+  >
+    <rect
+      x="0"
+      y="0"
+      width="150"   => In this scenario, this rectangle is clip/cut at the width="100" (see above)
+      height="200"  => In this scenario, the clip height is equal to the shape height so we see the whole
+                       portion of the rectangle vertically.
+    />
+  </g>
+
+  // ------------------
+  // --- ON A SHAPE ---
+  // ------------------
+  <path
+    d="...."
+    style="clip-path: url('#myClippingPath')"
+  />
+</svg>
+
+
+#################
+    G. STRICKS
+#################
+
+- Double color stroke:
+    stroke: color1;
+    stroke-width: 4;
+    stroke-opacity: 0.5;
+    fill: color2;

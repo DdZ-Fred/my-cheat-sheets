@@ -1,0 +1,2 @@
+ansible-playbook -i staging staging.yml --tags "frontend" --extra-vars "frontend_version=release/v1.xx.0"
+ansible-playbook -i dev develop.yml --tags "frontend" --extra-vars "frontend_version=develop"

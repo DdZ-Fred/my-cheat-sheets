@@ -1,0 +1,63 @@
+===============================
+  HEROKU TOOLBELT CHEAT SHEET
+===============================
+
+
+heroku login						-->		LOGIN
+
+
+
+
+1. Domains
+----------
+
+heroku domains						-->		LIST ALL HEROKU APPS DOMAINS &
+											THEIR RESPECTIVE CUSTOM DOMAINS
+
+heroku domains:add domainName		-->		ADD CUSTOM DOMAIN TO CURRENT APP
+
+
+
+
+2. Config vars
+--------------
+
+heroku config 						-->		LIST ALL CONFIG VARS
+
+heroku config:set VARIABLE=VALUE	--> 	ADD NEW CONFIG VARIABLE. ON ADDING,
+											THE SERVER IS RESTARTED AND THE VARIABLE
+											IS AVAILABLE AS A ENVIRONMENT VARIABLE.
+
+heroku config:get VARIABLE			--> 	SHOW VARIABLE VALUE
+
+heroku config:unset VARIABLE		-->		UNSET/REMOVE VARIABLE
+
+
+
+
+3. Maintenance
+--------------
+
+heroku maintenance 					-->		Maintenance status: on/off
+heroku maintenance:on 				--> 	Enable Maintenance Mode
+heroku maintenance:off 				--> 	Disable Maintenance Mode
+
+
+
+
+
+4. Rollback
+-----------
+
+heroku rollback 					--> 	Rollback to previous version
+											See 'heroku releases' for versions
+
+
+
+
+5. Logs
+-------
+
+heroku logs 						--> 	RETRIEVES LAST 100 LOG LINES
+heroku logs -n NUMBER		        --> 	RETRIEVES THE SPECIFIED AMOUNT OF LOG LINES (--num)
+heroku logs -t						--> 	DISPLAYS RECENT LOG LINES IN REAL-TIME (--tail)

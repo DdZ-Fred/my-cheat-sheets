@@ -1,0 +1,112 @@
+===================
+ REDUX CHEAT SHEET
+===================
+
+X. Definitions
+--------------
+
+ --> Pure function:
+	 - Func which returned value depends only on its arguments: just calculate new value
+	 - No side effects <=> no DB requests/Network communications
+	 - Same arguments will always return the same value = Predictable
+	 - Doesn't modify the values passed (arguments) but create new ones.
+	 - Doesn't use mutating methods
+
+
+--> Non-mutating methods: Methods that don't modify/affect the value passed but rather return a new one
+	- array.slice(startIdx, endIdx):			Returns a new array that represents the specified slice of the array (excluding the endIdx)	
+	- array.concat(newItem, newItem2):			Returns a new array from the one passed and to which has been added more items.
+	- Object.assign(targetObj, ...sources):		Copy all the properties values from the sources to a target object.
+	- ...array:									ES6 Array Spreads
+
+
+ 1. Principles
+ -------------
+
+ - State changes occur via ACTIONS: object that describes the change (must have a type property)
+ - ACTIONS are dispatched: usually on User interaction (buttons, inputs...)
+ - REDUCERS receive ACTIONS: and calculate the next state based on previous state
+
+
+
+
+2. Modules
+----------
+
+	2.1. Redux (redux)
+	------------------
+
+	createStore(reducer):			--> 	[Func] As its name indicates, it allows to create a new store
+	combineReducers:				--> 	[Func] Combine reducers so that the state can be managed from a single place
+	bindActionsCreators(			--> 	Turns an object whose values are action creators, into an object with
+		actionCreatorsObj,					the same keys, but with every action creator wrapped into a dispatch
+		dispatch 							call so they may be invoked directly
+	)
+
+
+	2.2. React-redux
+	----------------
+
+	 Provider						-->		[React Component] Ready to use Provider component which will pass down the store in the Context
+	 connect(						--> 	[React Component] Creates a Container component. By defaut (no map functions), 'dispatch' is passed as a prop and no store subscriptions
+		mapStateToProps,						[Func] [Arg: State] 	Returns an object that gathers the props for the Presentational Component
+		mapDispatchToProps						[Func] [Arg: dispatch] 	Returns an object that gathers the action-props for the Presentational Component
+	 )(PresentationalComponent)					[React Component] 		Component that receives the data to be rendered
+
+
+3. Components
+-------------
+
+3.1. Reducer
+-----------
+
+- Is a Pure Function
+- Should define a default state (Initial State)
+
+	#	const myReducer = (stateName = defaultValue, action) => {
+	#		switch(action.type) {
+	#			case 'type1': {
+	#				...
+	#				return newState;
+	#			}
+	#			case 'type2': {
+	#				...
+	#				return newState;
+	#			}
+	#		}
+	#	}
+
+
+
+
+3.2. Store
+-----------
+
+- Holds the current APP STATE
+- Allows to dispatch ACTIONS
+- Gathers all REDUCERS, which allow to update the state appropriately in response to an dispatched ACTION.
+
+- Methods: 
+		# getState():				--> 	returns current state
+		# dispatch({action}):		--> 	Dispatch given action
+		# subscribe(listener):		--> 	allows to define a function that is called every
+											time the state changes. Can be used several times
+
+
+3.3. Container Components
+-------------------------
+
+- Re-render when the store state changes = Manages the state
+	- Subscribe to the store changes when mounted
+	- Unsubscribe to the store when unmounted
+- Gather the actions and dispatch them when necessary
+- Require contextTypes to get the store from the context
+
+
+
+3.4. UI/Presentational Components
+----------------------------------
+
+- Just shows data using appropriate props
+- No state
+- No actions

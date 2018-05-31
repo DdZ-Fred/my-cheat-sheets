@@ -1,0 +1,84 @@
+#########################################
+############### SERVER ##################
+#########################################
+
+MongoDB installation
+--------------------
+
+- Download installer on official website
+- Install in:   C:\mongodb
+- Restart Windows!
+- Create sub-folders:
+	C:\mongodb\data
+	C:\mongodb\log
+	C:\mongodb\data\db
+
+
+MongoDB daemon and config
+-------------------------
+mongod  --directoryperdb						// Really explicit option...
+		--dbpath C:\mongodb\data\db 			// Default behaviour but it didn't work without it the first time
+		--logpath C:\mongodb\log\mongodb.log 	// Specifies where to save the logs
+		--logappend								// New logs are appended (not overwritten)
+		-rest									// Allows rest access
+		--install 								// Install MongoDB Service
+
+
+
+MongoDB Service commands
+========================
+
+Start service 		-->		net start MongoDB
+Stop service 		--> 	net stop MongoDB
+Remove service 		-->		"C:\mongodb\bin\mongod.exe" --remove
+
+
+
+#################################################
+############### SHELL COMMANDS ##################
+#################################################
+
+- Show all dbs					-->		show dbs
+- Create new db					--> 	use dbName
+- Switch to other DB 			-->		use dbName
+- Show current working db 		--> 	db
+
+
+- Show collections 				--> 	show collections
+- Create new collection 		--> db.createCollection('collectionName')
+
+
+
+-------------------------
+## ACCESS A COLLECTION ##
+-------------------------
+
+There are multiple ways to acces a same collection:
+
+	db.collectionName.find()	
+	db.collectionName.find().pretty()			// The result is indented for a better readability
+	db["collectionName"].find()					//Convenient when name contains spaces
+	db.getCollection("collectionName").find()
+
+
+
+------------------------------
+## DOCUMENT CRUD Operations ##
+------------------------------
+
+- Insert new doc 						--> 	db.collectionName.insert({name: "...", })
+- Find one+ docs						--> 	db.collectionName.find({selector})
+- Find one+ docs with formatted result	--> 	db.collectionName.find({selector}).pretty()
+
+- Update a doc 
+--> db.collectionName.update({
+		username: "usernameHere",
+		otherParam: "otherParamValueHere"
+	},
+	{
+		$set: {
+			email: "updatedValueHere"
+		}
+	})
+
+

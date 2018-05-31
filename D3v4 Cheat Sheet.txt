@@ -1,0 +1,413 @@
+=======================
+   D3 v4 Cheat Sheet
+=======================
+
+----------
+  1. API
+----------
+
+
+1.1. Scales API
+---------------
+
+  ==> 1.1.1. scaleLinear [Numeric Mapping]
+  ----------------------------------------
+
+  const linearScaler =
+    d3.scaleLinear()
+      .domain([                 => Defines the input domain
+        minInput,                   {Number}
+        maxInput                    {Number}
+      ])
+      .range([                  => Defines the output domain/range
+        minOutput,                  {Number}
+        maxOutput                   {Number}
+      ])
+      .clamp(                   => Defines whether outside-domain values should be clampled or not.
+        shouldClampValue            {Boolean}
+      );
+
+  linearScaler(domainValue)     => Maps to the appropriate output/range value
+  linearScaler.invert(          => Inverted-mapping! Takes an outputValue and returns an inputValue
+    rangeValue                      {Number}
+  )
+
+
+  ==> 1.1.2. scaleTime [Time Mapping]
+  -----------------------------
+
+  const tmpTimeScaler =
+    d3.scaleTime()
+      .domain([                 => Defines the time-input domain
+        minInput,                   {Date}
+        maxInput                    {Date}
+      ])
+      .range([                  => Defines the output domain/range
+        minOutput,                  {Number|Date}
+        maxOutput                   {Number|Date}
+      ]);
+
+  tmpTimeScaler(domainValue)    => Maps to the appropriate output/range value
+  tmpTimeScaler.invert(         => Inverted-mapping! Takes an outputValue and returns an inputValue
+      rangeValue                  {Number|Date}
+  )
+
+
+  ==> 1.1.3. scaleQuantize [Numeric value categorization/labelization]
+  --------------------------------------------------------------------
+
+  # Split the domain in {rangeLength} equal portions.
+  Returns the range value to which the input value belongs.
+  Useful for categorization of input values.
+
+  const tmpQuantizeScaler =
+    d3.scaleQuantize()
+      .domain([                     => Defines the input domain
+        minInput,                     {Number}
+        maxInput,                     {Number}
+      ])
+      .range([                      => Length = 4, so splits the domain in 4 sub-domains
+        value1,                       {Any} - Maps to the first Quarter(1/4) of the domain
+        value2,                       {Any} - Maps to the second Quarter(1/4) of the domain
+        value3,                       {Any} - Maps to the third Quarter(1/4) of the domain
+        value4,                       {Any} - Maps to the fourth Quarter(1/4) of the domain
+      ]);
+
+  tmpQuantizeScaler(inputValue)     => Maps to a range value
+  tmpQuantizeScaler
+    .invertExtent(rangeValue)       => Inverted-mapping.
+
+
+
+  ==> 1.1.4. scaleOrdinal [Non-Numeric value categorization/labelization]
+  -----------------------------------------------------------------------
+
+  # Similar to scaleQuantize but with Non-Numeric inputs
+  # Split the domain in {rangeLength} equal portions.
+  # Mapping:
+  # - 1st Domain value => 1st Range value
+  # - 2nd Domain value => 2nd Range value
+  # If Domain.length > Range.length, the modulo range value is taken
+  Returns the range value to which the input value belongs.
+  Useful for categorization of input values.
+
+  const tmpOrdinalScaler =
+    d3.scaleOrdinal()
+      .domain([                     => Defines the fixed set of domain input values
+        input1,                     {Non-Numeric}
+        input2,                     {Non-Numeric}
+        ...
+        inputN                      {Non-Numeric}
+      ])
+      .range([                      => Length = 4, so splits the domain in 4 sub-domains
+        value1,                       {Any} - Maps to the first Quarter(1/4) of the domain
+        value2,                       {Any} - Maps to the second Quarter(1/4) of the domain
+        value3,                       {Any} - Maps to the third Quarter(1/4) of the domain
+        value4,                       {Any} - Maps to the fourth Quarter(1/4) of the domain
+      ]);
+
+  tmpOrdinalScaler(inputValue)     => Maps to the appropriate range value
+  tmpOrdinalScaler
+    .invertExtent(rangeValue)       => Inverted-mapping.
+
+
+  ==> 1.1.5. scaleBand [Histogram/Bars]
+  -------------------------------------
+
+  d3.scaleBand()
+    .padding(bandPadding)                   => Defines band padding (0-1)
+    .paddingOuter(paddingOuterValue)        => Defines the Outer padding (0-1)
+    .paddingInner(paddingInnerValue)        => Defines the Inner padding (0-1)
+    .align(alignmentValue)                  => 0 = Left, 1 = Right
+    .domain(valuesList)                     => Defines fixed set of values
+    .range([minOutput, maxOutput])
+
+
+
+1.5. json [JSON Data File Extraction]
+-------------------------------------
+
+d3.json(
+  jsonFilePath,                       => {String} jsonFilePath - JSON file path
+  function(data) {//Do something}     => Callback with file data
+)                                         @param {Object[]} data - List of items
+
+
+
+1.6. csv [CSV Data File Extraction]
+-------------------------------------
+
+d3.csv(
+  csvFilePath,                        => {String} csvFilePath - CSV file path
+  function(data) {//Do something}     => Callback with file data
+)                                         @param {Object[]} data - List of items
+                                          @param {String[]} data.columns - List of column names
+
+1.7. tsv [TSV Data File Extraction]
+-------------------------------------
+
+d3.tsv(
+  tsvFilePath,                        => {String} tsvFilePath - TSV file path
+  function(data) {//Do something}     => Callback with file data
+)                                         @param {Object[]} data - List of items
+                                          @param {String[]} data.columns - List of column names
+
+
+1.8. min - Find minimum value [Data Inspection Tool]
+----------------------------------------------------
+
+d3.min(                           => @returns {Number} Minimum value
+  data,                           => List of items
+  [accessorFunction]              => [Optional] Accessor function
+);                                    @param {Any} datum - Item datum
+                                      @param {Number} index - Item index
+
+1.9. max - Find maximum value [Data Inspection Tool]
+----------------------------------------------------
+
+d3.max(                           => @returns {Number} Maximum value
+  data,                           => List of items
+  [accessorFunction]              => [Optional] Accessor function
+);                                    @param {Any} datum - Item datum
+                                      @param {Number} index - Item index
+
+
+1.10. extent - Get [min, max] array [Data Inspection Tool]
+----------------------------------------------------------
+
+d3.extent(                        => @returns {Number[]} Min & Max values
+  data,                           => List of items
+  [accessorFunction]              => [Optional] Accessor function
+);                                    @param {Any} datum - Item datum
+                                      @param {Number} index - Item index
+
+
+1.11. set - Creates a unique set from data [Data Inspection Tool]
+-----------------------------------------------------------------
+
+d3.set(                        => @returns {Set} A Set which stores unique values
+  data,                           => List of items
+  [accessorFunction]              => [Optional] Accessor function
+);                                    @param {Any} datum - Item datum
+                                      @param {Number} index - Item index
+
+
+1.11. select/selectAll - Select DOM Elements [DOM Elements Manipulation]
+------------------------------------------------------------------------
+
+const firstDiv = d3.select('div');          => @returns {D3Selection} D3 selection containing only
+                                            the first corresponding element
+
+d3.selectAll('');                           => @returns {D3Selection} D3 selection containing
+                                            all the corresponding elements.
+firstDiv.selectAll('childrenSelector')      // Idem
+
+
+  ==> 1.11.1. Selection API
+  --------------------------
+
+  .data(                              => @returns a "Update" selection. Join data to a selection.
+    dataList,                            @param {any[]} dataList - List of items to be rendered in the DOM
+    keyFunction                          @param {Funcion} [keyFunction] - Defines how to identify uniquely an DOM element (similar to React 'key' prop)
+  )
+
+  .attr(                              => Get/Set the given attribute
+    'attrname',                             {String} attrName - Attribute name
+    [value]                                 {Any} value - Anything
+  )
+
+  .style(                             => Set a style rule
+    'styleRule',                        {String} styleRule - Css rule
+    'ruleValue'                         {String} ruleValue - Css rule value
+  )
+
+  .classed(                           => Set a CSS class
+    'className',                        {String} className - Class name
+    isActiveBool                        {Boolean} ruleValue - Should the class be active or not
+  )
+
+  .text(                              => Set inner text
+    mytext,                             {String} mytext - My inner text
+  )
+
+  .html(                              => Set inner HTML
+    myInnerHtml,                        {String} myInnerHtml - My inner html
+  )
+
+  .append(                            => Appends a new element (at the end of the container)
+    elementType,                          @param {String} elementType - New element type
+  )                                       @returns {D3Selection} Appended element, on which
+                                          can be executed standard Selection-API methods
+
+  .insert(                            => Insert a new element before the passed selector or append it.
+    elementType,                          @param {String} elementType - New element type
+    [beforeSelector]                      @param {string} [beforeSelector] - Before selector
+  )                                       @returns {D3Selection} Inserted element, on which
+                                        can be executed standard Selection-API methods
+
+
+  .merge(                             => @returns {D3Selection} Merge 'mergedSelection' into the current one.
+    mergedSelection                      @param {D3Selection} mergedSelection - Merged-In selection
+  )
+
+  .on(                                => Add an event listener
+    eventType,                           @param {string} eventType - Event type
+    callback                             @param {Function}.
+  )                                         @arg {Any} datum - Associated datum
+                                            @arg {Number} index - Datum index
+                                            @arg {D3Selection} elements - Complete list of elements
+
+
+  .filter(                            => @returns {D3Selection} Filters the selection based on:
+    filterArg                            @param {String|Function} filterArg - Whether a:
+  )                                         {String} representing a String css selector
+                                            {Function} Keeps only the elements satisfying the condition
+                                              @arg {Object} this - Context which is the current item
+                                              @arg {Any} datum - Current item datum
+                                              @arg {Number} index - Current item index
+
+  .call(                              => @returns {D3Selection} Updated selection
+    selectionManipulationMethod,         @param {Function} selectionManipulationMethod - Manipulation method
+                                            @arg {D3Selection} selection - Current selection
+                                            @args {Any} ...argsToBePassed - Any argument required
+    ...argsToBePassed
+  )
+
+  ==> 1.11.2. Enter/Update/Exit Selections
+  ----------------------------------------
+
+    a) UPDATE Selection:
+    --------------------
+    Def: Represents the Joined selection between the DataList and the already present items in the DOM.
+         Basically, it returns the list of items that will be updated.
+
+      const dataList = [
+        {
+          id: '1',
+          name: 'item1',
+        },
+        {
+          id: '2',
+          name: 'item2',
+        },
+      ];
+      const update = d3
+        .select('.itemListContainer')
+        .selectAll('div.item')
+        .data(dataList, function(d) {
+          return d ? d.name : this.innerText;
+        });
+
+    b) ENTER Selection
+    ------------------
+    Def: Represents the dataList items that will be added/created.
+         These items aren't associated to any DOM element yet and need to be rendered.
+
+      update
+        .enter()                  => @returns the "Enter" selection
+        .append('div)
+        .classed('item', true);
+
+    c) EXIT Selection
+    -----------------
+    Def: Represents the list of DOM elements (already rendered) that don't correspond to any datum
+         in the dataList.
+         [Default Behaviour] They are kept in the DOM. But they can be removed!
+
+    update
+      .exit()                     => @returns the "Exit" selection
+      .remove();
+
+
+
+
+1.12. Axes - Axis Initialization/Rendering [Axis]
+-------------------------------------------------
+
+  ==> 1.12.1. Initialization
+  --------------------------
+
+    const myAxisScale = d3
+      .scaleLinear()
+      .domain([inputMin, inpuMax])
+      .range([ouputMin, outputMax]);
+
+    const myAxisRenderingMethod = d3.
+      axisTop|axisRight|axisBotttom|axisLeft              => @returns {Function} Axis generator function.
+      (myAxisScale);                                           @param {D3Scale}
+
+    d3
+      .select('div.container')
+      .append('svg')
+      .append('g')
+      .call(myAxisRenderingMethod);
+
+
+   ==> 1.12.2. Axis API
+  ---------------------
+
+    .ticks(                           => @returns {D3AxisGenerator} Updated axis generator
+      ticksCount                        @param {Number} ticksCount - Approximative ticks count
+    )
+
+    .tickValues(                      => @returns {D3AxisGenerator} Updated axis generator
+      tickValues                        @param {Number[]} tickValues - User-defined values to be rendered
+    )
+
+    .tickPadding(                     => @returns {D3AxisGenerator} Updated axis generator
+      tickPaddingValue                  @param {Number} Distance between the axis and the tick labels
+    )
+
+
+
+1.13. Shapes
+------------
+
+  ==> 1.13.1 Lines
+  ----------------
+
+  const linePoints = [
+    {
+      date: 'date1',
+      price: 'price1'
+    },
+    {
+      date: 'date2',
+      price: 'price2'
+    },
+    ...
+  ];
+
+  const line = d3.line()
+    .x(d => xScale(d.date))
+    .y(d => yScale(d.price);
+
+  d3.select('.myContainer')
+    .append('path')
+      .attr('d', line(linePoints))
+
+
+
+  ==> 1.13.2 Area
+  ---------------
+
+  const values = [
+    {
+      date: 'date1',
+      price: 'price1'
+    },
+    {
+      date: 'date2',
+      price: 'price2'
+    },
+    ...
+  ];
+
+  const area = d3.area()
+    .x(d => xScale(d.date))
+    .y0(yScale(d3.min(values, val => val.price)))
+    .y1(d => yScale(d.price));
+
+  d3.select('.myContainer')
+    .append('path')
+      .attr('d', area(values));

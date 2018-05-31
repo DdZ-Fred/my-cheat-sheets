@@ -1,0 +1,48 @@
+=================================
+REGULAR EXPRESSIONS / CHEAT SHEET
+=================================
+
+
+1. Declaration/Syntax
+---------------------
+
+--> Method 1: Using RegExp constructor
+		var regex = new RegExp('patternHere', 'flagsHere')
+
+--> Method 2: Using Regular Expression Literal
+		var regex = /patternHere/flagsHere;
+
+
+
+
+2. Flags
+--------
+
+Allows to override the defautlt behaviour:
+
+g   		--> Global Search: Will allow multiple searches on the string.
+				By default, regex.exec(str) will always return the FIRST match,
+				even if the method is re-run! This allows the execution to be state-aware and to find another
+				match further in the string if one exists. When the whole string has been tested, the next
+				test starts from the beginning of the string again.
+i 			--> Case-insensitive Search
+
+
+
+
+3. Test RegExp against a String
+-------------------------------
+
+regex.test(stringHere)			--> [Boolean] Returns whether the string repects the pattern or not
+regex.exec(stringHere)			--> [Object/Null] Returns obj which gathers the sequence that passed the test and its index
+
+
+
+
+4. String methods that use RegExp
+---------------------------------
+
+myString.match(regex)						--> [Array/Null] Returns an array of the whole match result or null
+myString.replace(regex,callback(match))		--> [String] Returns an updated version of the string where all the
+												matching sequences are replaced by the returned value of the callback
+myString.search(regex)						--> [Number] Returns the index of the first matching sequence or -1.

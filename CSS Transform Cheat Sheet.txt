@@ -1,0 +1,23 @@
+#################################
+    CSS TRANSFORM CHEAT SHEET
+#################################
+
+============
+#1. ROTATION
+============
+
+rotate(
+  degValue,   => Rotation value in degree
+  [x],        => [Optional] Rotation point x-origin
+  [y]         => [Optional] Rotation point y-origin
+)
+
+  EQUIVALENT-TO
+
+transform: rotate(degValue);
+transform-origin: x y [z];
+
+
+===============
+#2. TRANSLATION
+===============
